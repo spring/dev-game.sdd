@@ -1,4 +1,4 @@
---http://springrts.com/wiki/Modinfo.lua
+-- http://springrts.com/wiki/Modinfo.lua
 local modinfo = {
 	name = "devgame",
 	shortname = "dg",
