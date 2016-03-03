@@ -14,13 +14,16 @@ end
 --------------------------------------------------------------------------------
 
 -- synced only
-if (not gadgetHandler:IsSyncedCode()) then
-	return false
+--if (not gadgetHandler:IsSyncedCode()) then
+--	return false
+--end
+function gadget:Initialize()
+	Spring.Echo("gadget:Initialize")
 end
 
-
-function gadget:Initialize()
-	Spring.Echo("Initialized test")
+function gadget:GameFrame(n)
+	Spring.Echo("gadget:GameFrame")
+	TestDone(true, "Everything fine!")
 end
 
 -- https://springrts.com/mantis/view.php?id=4942
