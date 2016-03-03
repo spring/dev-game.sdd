@@ -18,6 +18,11 @@ if (not gadgetHandler:IsSyncedCode()) then
 	return false
 end
 
+
+function gadget:Initialize()
+	Spring.Echo("Initialized test")
+end
+
 -- https://springrts.com/mantis/view.php?id=4942
 function gadget:UnitCreated(unitID, unitDefID, unitTeam, builderID)
 	Spring.Echo("game_spawn.lua: SetUnitDirection")

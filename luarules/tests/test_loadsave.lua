@@ -2,12 +2,12 @@
 --http://springrts.com/phpbb/viewtopic.php?f=23&t=27057
 --http://springrts.com/mantis/view.php?id=2796
 
-function widget:GetInfo()
+function gadget:GetInfo()
   return {
-    name      = "fast exit",
-    desc      = "exit spring-headless after 1000 frames",
+    name      = "test_save-load",
+    desc      = "",
     author    = "abma",
-    date      = "1.9.2015",
+    date      = "2016.03.03",
     license   = "GNU GPL, v2 or later",
     layer     = 0,
     enabled   = true,
@@ -16,10 +16,12 @@ end
 
 local maxframes = 100 -- max frames to run before auto exit
 
-function widget:GameFrame(n)
-	if (n == maxframes) then
-		Spring.Echo("maxframes reached, exiting...")
-		Spring.SendCommands("quitforce")
+function gadget:GameFrame(n)
+	--Spring.SetConfigString
+	if (n == 10) then
+		Spring.Echo("Saving game...")
+		Spring.SendCommands("save test")
+		Spring.Restart("test.sff")
 	end
 end
 
