@@ -11,25 +11,27 @@ if not VFS.FileExists(currentTest, VFSMODE) then
 end
 local currentGadget
 
+local SEC = "tests"
+
 function gadgetHandler:StartTest(testfile)
 	currentTest = testfile
 	Spring.Echo("Starting test " .. testfile)
 	Spring.SetConfigString(CONFIGVAR, testfile)
-	curgadget = gadgetHandler:LoadGadget(testfile)
-	if not (curgadget) then
+	currentGadget = self:LoadGadget(testfile)
+	if not (currentGadget) then
 		Spring.Echo("Error in test: " .. testfile)
+		Spring.SendCommands("forcequit")
 		return
 	end
-	curgadget.TestDone = function (result, msg) self:TestDone(result, msg)      end
-	Spring.Echo("StartTest: Loaded Gadget")
-	gadgetHandler:InsertGadget(curgadget)
-	gadgetHandler:UpdateCallIns()
+	--curgadget.TestDone = function (result, msg) self:TestDone(result, msg)      end
+	currentGadget.TestDone = gadgetHandler.TestDone
+	Spring.Log(SEC, LOG.INFO, "Loaded Gadget test " .. testfile)
+	gadgetHandler:InsertGadget(currentGadget)
 end
 
 function gadgetHandler:NextTest()
 	local found = false
 	for k,gf in ipairs(gadgetFiles) do
-		Spring.Echo(gf)
 		if found or currentTest == "" then
 			gadgetHandler:StartTest(gf)
 			return
@@ -40,19 +42,16 @@ function gadgetHandler:NextTest()
 	end
 	Spring.SetConfigString(CONFIGVAR,"")
 	Spring.Echo("All tests run, exiting!")
-	Spring.SendCommands("quit")
+	Spring.SendCommands("forcequit")
 end
 
 function gadgetHandler:TestDone(result, msg)
 	if result then
-		status = "Ok"
+		Spring.Echo("Test " .. currentTest .. " is fine: " .. msg)
 	else
-		status = "Failed"
+		Spring.Log(SEC, LOG.ERROR, "Test " .. currentTest .. " failed: " .. msg)
 	end
-	Spring.Echo("Test " .. currentTest .. " is done: " .. status .. " ".. msg)
-	Spring.Echo("")
-	Spring.Echo("")
-	Spring.Echo("")
+
 	gadgetHandler:RemoveGadget(currentGadget)
 	gadgetHandler:NextTest()
 end

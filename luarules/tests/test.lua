@@ -23,7 +23,7 @@ end
 
 function gadget:GameFrame(n)
 	Spring.Echo("gadget:GameFrame")
-	TestDone(true, "Everything fine!")
+	gadget:TestDone(true, "Everything fine!")
 end
 
 -- https://springrts.com/mantis/view.php?id=4942
