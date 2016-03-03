@@ -16,12 +16,26 @@ end
 
 local maxframes = 100 -- max frames to run before auto exit
 
+function gadget:Initialize()
+	enabled = Spring.GetConfigInt("UseCREGSaveLoad") == 1
+	if not enabled then
+		Spring.Echo("UseCREGSaveLoad not enabled, enabling!")
+		Spring.SetConfigInt("UseCREGSaveLoad", 1)
+		assert(Spring.GetConfigInt("UseCREGSaveLoad") == 1)
+	end
+end
+
 function gadget:GameFrame(n)
 	--Spring.SetConfigString
 	if (n == 10) then
 		Spring.Echo("Saving game...")
 		Spring.SendCommands("save test")
-		Spring.Restart("test.sff")
+		Spring.SendCommands("savegame test")
+		Spring.SendCommands("/save test")
+		Spring.SendCommands("/savegame test")
+	end
+	if (n == 1000) then
+		Spring.Reload("test.sff")
 	end
 end
 
