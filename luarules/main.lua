@@ -13,7 +13,7 @@ function gadgetHandler:StartTest(testfile)
 	Spring.SetConfigString(CONFIGVAR, testfile)
 	curgadget = gadgetHandler:LoadGadget(testfile)
 	if not (curgadget) then
-		Spring.Echo("error in test: " .. testfile)
+		Spring.Echo("Error in test: " .. testfile)
 		return
 	end
 	curgadget.TestDone = function (result, msg) self:TestDone(result, msg)      end
@@ -45,13 +45,10 @@ function gadgetHandler:TestDone(result, msg)
 	else
 		status = "Failed"
 	end
-	Spring.Echo("XXXXXXXXXXXXX Test " .. curtest .. " is done: " .. status .. " ".. msg)
---gadget.ghInfo.name
+	Spring.Echo("Test " .. curtest .. " is done: " .. status .. " ".. msg)
 	gadgetHandler:DisableGadget(curgadget.ghInfo.name)
 	gadgetHandler:NextTest()
 end
-
---System.TestDone = function (_) gadgetHandler:TestDone(gadget)      end
 
 if curtest == "" then
 	gadgetHandler:NextTest(curtest)
