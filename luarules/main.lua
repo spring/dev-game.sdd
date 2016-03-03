@@ -4,11 +4,15 @@ VFS.Include("LuaGadgets/gadgets.lua",nil, VFS.BASE)
 local TESTS_DIR = Script.GetName():gsub('US$', '') .. '/tests'
 local gadgetFiles = VFS.DirList(TESTS_DIR, "*.lua", VFSMODE)
 local CONFIGVAR = "CurrentTest"
-local curtest = Spring.GetConfigString(CONFIGVAR)
-local curgadget = nil
+local currentTest = Spring.GetConfigString(CONFIGVAR)
+
+if not VFS.FileExists(currentTest, VFSMODE) then
+    currentTest = ""
+end
+local currentGadget
 
 function gadgetHandler:StartTest(testfile)
-	curtest = testfile
+	currentTest = testfile
 	Spring.Echo("Starting test " .. testfile)
 	Spring.SetConfigString(CONFIGVAR, testfile)
 	curgadget = gadgetHandler:LoadGadget(testfile)
@@ -26,11 +30,11 @@ function gadgetHandler:NextTest()
 	local found = false
 	for k,gf in ipairs(gadgetFiles) do
 		Spring.Echo(gf)
-		if found or curtest == "" then
+		if found or currentTest == "" then
 			gadgetHandler:StartTest(gf)
 			return
 		end
-		if gf == curtest then
+		if gf == currentTest then
 			found = true
 		end
 	end
@@ -45,17 +49,17 @@ function gadgetHandler:TestDone(result, msg)
 	else
 		status = "Failed"
 	end
-	Spring.Echo("Test " .. curtest .. " is done: " .. status .. " ".. msg)
+	Spring.Echo("Test " .. currentTest .. " is done: " .. status .. " ".. msg)
 	Spring.Echo("")
 	Spring.Echo("")
 	Spring.Echo("")
-	gadgetHandler:DisableGadget(curgadget.ghInfo.name)
+	gadgetHandler:RemoveGadget(currentGadget)
 	gadgetHandler:NextTest()
 end
 
-if curtest == "" then
-	gadgetHandler:NextTest(curtest)
+if currentTest == "" then
+	gadgetHandler:NextTest(currentTest)
 else
-	gadgetHandler:StartTest(curtest)
+	gadgetHandler:StartTest(currentTest)
 end
 
