@@ -46,6 +46,9 @@ function gadgetHandler:TestDone(result, msg)
 		status = "Failed"
 	end
 	Spring.Echo("Test " .. curtest .. " is done: " .. status .. " ".. msg)
+	Spring.Echo("")
+	Spring.Echo("")
+	Spring.Echo("")
 	gadgetHandler:DisableGadget(curgadget.ghInfo.name)
 	gadgetHandler:NextTest()
 end
