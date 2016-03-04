@@ -2,4 +2,8 @@
 test game for engine devs
 
 
-to use, git clone to ~/.spring/games/devgame.sdd and start "devgame $VERSION"
+## Usage
+
+   git clone https://github.com/spring/devgame.sdd ~/.spring/games/devgame.sdd
+   spring --game 'devgame $VERSION' --map DeltaSiegeDry
+
