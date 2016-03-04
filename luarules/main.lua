@@ -1,8 +1,7 @@
 
 VFS.Include("LuaGadgets/gadgets.lua",nil, VFS.BASE)
 
-local TESTS_DIR = Script.GetName():gsub('US$', '') .. '/tests'
-local gadgetFiles = VFS.DirList(TESTS_DIR, "*.lua", VFSMODE)
+local gadgetFiles = VFS.DirList("tests", "*.lua", VFSMODE)
 local CONFIGVAR = "CurrentTest"
 local currentTest = Spring.GetConfigString(CONFIGVAR)
 
