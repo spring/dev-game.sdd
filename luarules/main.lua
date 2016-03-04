@@ -19,8 +19,8 @@ function gadgetHandler:StartTest(testfile)
 	Spring.SetConfigString(CONFIGVAR, testfile)
 	currentGadget = self:LoadGadget(testfile)
 	if not (currentGadget) then
-		Spring.Echo("Error in test: " .. testfile)
-		Spring.SendCommands("forcequit")
+		Spring.Log(SEC, LOG.ERROR, "Test is disabled: ".. testfile)
+		gadgetHandler:NextTest()
 		return
 	end
 	--curgadget.TestDone = function (result, msg) self:TestDone(result, msg)      end
