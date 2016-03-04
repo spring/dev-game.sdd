@@ -21,9 +21,9 @@ function gadget:Initialize()
 	Spring.CreateUnit("simplefactory", 0, 0, 0, 0, 0)
 end
 
-
 -- https://springrts.com/mantis/view.php?id=4942
 function gadget:UnitCreated(unitID, unitDefID, unitTeam, builderID)
 	Spring.Echo("unittest.lua: SetUnitDirection")
 	Spring.SetUnitDirection(unitID, 1, 0, 0)
+	gadget:TestDone(true, "ok")
 end

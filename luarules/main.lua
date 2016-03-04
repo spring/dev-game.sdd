@@ -20,21 +20,21 @@ function gadgetHandler:StartTest(testfile)
 	currentGadget = self:LoadGadget(testfile)
 	if not (currentGadget) then
 		Spring.Log(SEC, LOG.ERROR, "Test is disabled: ".. testfile)
-		gadgetHandler:NextTest()
-		return
+		return false
 	end
-	--curgadget.TestDone = function (result, msg) self:TestDone(result, msg)      end
 	currentGadget.TestDone = gadgetHandler.TestDone
 	Spring.Log(SEC, LOG.INFO, "Loaded Gadget test " .. testfile)
 	gadgetHandler:InsertGadget(currentGadget)
+	return true
 end
 
 function gadgetHandler:NextTest()
 	local found = false
 	for k,gf in ipairs(gadgetFiles) do
 		if found or currentTest == "" then
-			gadgetHandler:StartTest(gf)
-			return
+			if gadgetHandler:StartTest(gf) then
+				return
+			end
 		end
 		if gf == currentTest then
 			found = true
