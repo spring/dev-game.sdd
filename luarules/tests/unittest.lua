@@ -14,21 +14,16 @@ end
 --------------------------------------------------------------------------------
 
 -- synced only
---if (not gadgetHandler:IsSyncedCode()) then
---	return false
---end
+if (not gadgetHandler:IsSyncedCode()) then
+	return false
+end
 function gadget:Initialize()
-	Spring.Echo("gadget:Initialize")
+	Spring.CreateUnit("simplefactory", 0, 0, 0, 0, 0)
 end
 
-function gadget:GameFrame(n)
-	Spring.Echo("gadget:GameFrame")
-	gadget:TestDone(true, "Everything fine!")
-end
 
 -- https://springrts.com/mantis/view.php?id=4942
 function gadget:UnitCreated(unitID, unitDefID, unitTeam, builderID)
-	Spring.Echo("game_spawn.lua: SetUnitDirection")
+	Spring.Echo("unittest.lua: SetUnitDirection")
 	Spring.SetUnitDirection(unitID, 1, 0, 0)
 end
-
