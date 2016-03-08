@@ -1,4 +1,14 @@
 
+
+Spring.Echo([[
+
+WARNING
+this custom gadget handler currently uses very ugly hacks and should not be
+used in real games as it uses unsynced functions (Spring.SetConfig / Spring.GetConfig)
+ --> it will desync any network game instantly
+don't use it!
+]])
+
 VFS.Include("LuaGadgets/gadgets.lua",nil, VFS.BASE)
 
 local gadgetFiles = VFS.DirList("tests", "*.lua", VFSMODE)
