@@ -60,9 +60,13 @@ function gadget:GameFrame(n)
 			return
 		end
 	end
+	if (n > stopframe) then
+		gadget:TestDone(false, "test failed")
+	end
 end
 
 function gadget:Initialize()
+	Spring.Echo(string.format("gadget:Initialize() status: %d", status))
 	if status == 0 then -- before safe
 		assert(Spring.GetGameFrame() == 0)
 	else -- after safe
