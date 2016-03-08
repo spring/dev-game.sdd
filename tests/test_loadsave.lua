@@ -6,17 +6,8 @@ function gadget:GetInfo()
     date      = "2016.03.03",
     license   = "GNU GPL, v2 or later",
     layer     = 0,
-    enabled   = false, --disabled because assert fails
+    enabled   = true,
   }
-end
-
-function gadget:Initialize()
-	enabled = Spring.GetConfigInt("UseCREGSaveLoad") == 1
-	if not enabled then
-		Spring.Echo("UseCREGSaveLoad not enabled, enabling!")
-		Spring.SetConfigInt("UseCREGSaveLoad", 1)
-		assert(Spring.GetConfigInt("UseCREGSaveLoad") == 1)
-	end
 end
 
 function gadget:GameFrame(n)
