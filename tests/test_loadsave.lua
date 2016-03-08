@@ -23,13 +23,10 @@ function gadget:GameFrame(n)
 	--Spring.SetConfigString
 	if (n == 10) then
 		Spring.Echo("Saving game...")
-		Spring.SendCommands("savegame test")
-		Spring.SendCommands("/save test")
-		Spring.SendCommands("/savegame test")
+		Spring.SendCommands("save devgame -y")
 	end
 	if (n == 1000) then
-		Spring.SendCommands("save test")
-		Spring.Reload("test.sff")
+		Spring.Restart("Saves/devgame.ssf", "")
 	end
 end
 
