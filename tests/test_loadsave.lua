@@ -32,24 +32,43 @@ team=0;
 allyteam=0;
 teamleader=0;
 }
-gametype=devgame $VERSION;
 ishost=1;
+gametype=;
 mapname=DeltaSiegeDry;
 myplayername=UnnamedPlayer;
 savefile=devgame.ssf;
 }
 
-
 ]]
 
+-- replace gametype with current game (can't hardcode this)
+script = string.gsub(script, "gametype=[^;]+;", "gametype=" .. Game.gameName .. " " .. Game.gameVersion .. ";", 1)
+
+LOADTESTCONFIGVAR = "TestSaveLoadStatus"
+
+local status = Spring.GetConfigInt(LOADTESTCONFIGVAR)
+local stopframe = 10
+
 function gadget:GameFrame(n)
-	--Spring.SetConfigString
-	if (n == 10) then
-		Spring.Echo("Saving game...")
-		Spring.SendCommands("save devgame -y")
+	if (n == stopframe) then
+		if status == 0 then
+			Spring.Echo("Saving game...")
+			Spring.SendCommands("save devgame -y")
+			Spring.SetConfigInt(LOADTESTCONFIGVAR)
+			--assert(Spring.GetConfigInt(LOADTESTCONFIGVAR) == 1) -- try to avoid endless loop
+			Spring.Reload(script)
+			return
+		end
 	end
-	if (n == 1000) then
-		Spring.Reload(script)
+end
+
+function gadget:Initialize()
+	if status == 0 then -- before safe
+		assert(Spring.GetGameFrame() == 0)
+	else -- after safe
+		Spring.SetConfigInt(LOADTESTCONFIGVAR, 0) -- reset status
+		assert(Spring.GetGameFrame() == stopframe) -- gameframe has to be the same as the loaded frame
+		gadget:TestDone(true, "ok")
 	end
 end
 
