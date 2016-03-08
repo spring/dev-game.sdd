@@ -10,6 +10,38 @@ function gadget:GetInfo()
   }
 end
 
+local script = [[
+[game]
+{
+[allyteam0]
+{
+numallies=0;
+}
+[modoptions]
+{
+maxspeed=20;
+minimalsetup=1;
+}
+[player0]
+{
+name=UnnamedPlayer;
+team=0;
+}
+[team0]
+{
+allyteam=0;
+teamleader=0;
+}
+gametype=devgame $VERSION;
+ishost=1;
+mapname=DeltaSiegeDry;
+myplayername=UnnamedPlayer;
+savefile=devgame.ssf;
+}
+
+
+]]
+
 function gadget:GameFrame(n)
 	--Spring.SetConfigString
 	if (n == 10) then
@@ -17,7 +49,7 @@ function gadget:GameFrame(n)
 		Spring.SendCommands("save devgame -y")
 	end
 	if (n == 1000) then
-		Spring.Restart("Saves/devgame.ssf", "")
+		Spring.Reload(script)
 	end
 end
 
