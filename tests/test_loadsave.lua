@@ -19,7 +19,6 @@ numallies=0;
 }
 [modoptions]
 {
-maxspeed=20;
 minimalsetup=1;
 }
 [player0]
@@ -33,46 +32,35 @@ allyteam=0;
 teamleader=0;
 }
 ishost=1;
-gametype=;
-mapname=DeltaSiegeDry;
+gametype=%s;
+mapname=%s;
 myplayername=UnnamedPlayer;
 savefile=devgame.ssf;
 }
-
 ]]
 
--- replace gametype with current game (can't hardcode this)
-script = string.gsub(script, "gametype=[^;]+;", "gametype=" .. Game.gameName .. " " .. Game.gameVersion .. ";", 1)
-
 LOADTESTCONFIGVAR = "TestSaveLoadStatus"
+script = string.format(script, Game.gameName .. " " .. Game.gameVersion, Game.mapName) --set current
 
-local status = Spring.GetConfigInt(LOADTESTCONFIGVAR)
+local status = Spring.GetGameRulesParam(LOADTESTCONFIGVAR) or 0
 local stopframe = 10
 
 function gadget:GameFrame(n)
 	if (n == stopframe) then
-		if status == 0 then
+		if status == 0 then -- before save
 			Spring.Echo("Saving game...")
+			Spring.SetGameRulesParam(LOADTESTCONFIGVAR, 1)
 			Spring.SendCommands("save devgame -y")
-			Spring.SetConfigInt(LOADTESTCONFIGVAR)
-			--assert(Spring.GetConfigInt(LOADTESTCONFIGVAR) == 1) -- try to avoid endless loop
+			Spring.Echo(script)
 			Spring.Reload(script)
 			return
+		else -- after save
+			assert(Spring.GetGameFrame() == stopframe) -- gameframe has to be the same as the loaded frame
+			gadget:TestDone(true, "ok")
 		end
 	end
 	if (n > stopframe) then
 		gadget:TestDone(false, "test failed")
-	end
-end
-
-function gadget:Initialize()
-	Spring.Echo(string.format("gadget:Initialize() status: %d", status))
-	if status == 0 then -- before safe
-		assert(Spring.GetGameFrame() == 0)
-	else -- after safe
-		Spring.SetConfigInt(LOADTESTCONFIGVAR, 0) -- reset status
-		assert(Spring.GetGameFrame() == stopframe) -- gameframe has to be the same as the loaded frame
-		gadget:TestDone(true, "ok")
 	end
 end
 
