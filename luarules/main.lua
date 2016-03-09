@@ -1,5 +1,4 @@
 
-
 Spring.Echo([[
 
 WARNING
@@ -51,7 +50,7 @@ function gadgetHandler:NextTest()
 	end
 	Spring.SetConfigString(CONFIGVAR,"")
 	Spring.Echo("All tests run, exiting!")
-	Spring.SendCommands("forcequit")
+	Spring.SendCommands("quitforce")
 end
 
 function gadgetHandler:TestDone(result, msg)
