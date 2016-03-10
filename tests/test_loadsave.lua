@@ -57,6 +57,7 @@ function gadget:GameFrame(n)
 		else -- after save
 			assert(Spring.GetGameFrame() == stopframe) -- gameframe has to be the same as the loaded frame
 			gadget:TestDone(true, "ok")
+			return
 		end
 	end
 	if (n > stopframe) then
