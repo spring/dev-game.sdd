@@ -1,7 +1,7 @@
 function gadget:GetInfo()
 	return {
-		name      = "Test Float conversations",
-		desc      = "number conversation test gadget",
+		name      = "Test Float conversions",
+		desc      = "number conversion test gadget",
 		author    = "abma",
 		date      = "Sep. 2016",
 		license   = "GNU GPL, v2 or later",
