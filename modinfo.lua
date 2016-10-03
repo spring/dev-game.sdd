@@ -8,6 +8,7 @@ local modinfo = {
 	url = "https://github.com/spring/devgame.sdd",
 	version = "$VERSION", --when zipping .sdz for releasing make this a full integer like 1,2,3
 	modtype = 1,
+	onlyLocal = 1,
 	depend = {
 		"cursors.sdz",
 	}
